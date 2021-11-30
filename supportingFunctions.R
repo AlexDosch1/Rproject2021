@@ -4,8 +4,11 @@
   #into csv files
 
 # use for loop to convert from .txt to .csv
-#functions: read.table
-           # write.csv/write.table
+for(file in dir) 
+  # how do I make it read both tab and space delimited files
+  df <- read.table(file, sep = "\t", header = TRUE, stringsasFactors = FALSE)
+  # more arguments probably go here but idk what 
+  newFile <- write.csv(df) 
 # if else statement or if you can do like regex in bash but tab: "\t", space: " " 
 # exercise 9 has some helpful stuff
 
