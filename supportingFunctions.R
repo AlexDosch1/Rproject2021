@@ -3,16 +3,24 @@
 # 1. Convert all files in a directory with space- or tab-delimited data (.txt) 
   #into csv files
 
-# use for loop to convert from .txt to .csv
-for(file in dir) 
-  # how do I make it read both tab and space delimited files
-  df <- read.table(file, sep = "\t", header = TRUE, stringsasFactors = FALSE)
-  # more arguments probably go here but idk what 
-  newFile <- write.csv(df) 
-# if else statement or if you can do like regex in bash but tab: "\t", space: " " 
-# exercise 9 has some helpful stuff
-
-
+# set up directory for new csv files 
+dir.create(path = "/Users/alexdosch/Desktop/Rproject2021/countryY_csv")
+# write function name with input dir
+toCSV <- function(dir){
+  # inputs files from a specified path
+  directory <- "/Users/alexdosch/Desktop/Rproject2021/countryY"
+  ndirectory <- "/Users/alexdosch/Desktop/Rproject2021/countryY_csv"
+  
+  file_name = list.files(directory, pattern = ".txt")
+  
+  filestoRead <- paste(directory, file_name, sep="/")
+  filestoWrite <- paste(ndirectory, paste0(sub(".txt", "", file_name), ".csv"), sep="/")
+  
+  for(i in 1:length(filestoRead)){
+    temp = read.csv(filestoRead[i], header = TRUE, fill = TRUE)
+    write.csv(temp, file = filestoWrite[i])
+  }
+}
 
 # 2. compile data from all .csv files in a directory into a single .csv file
   # file should have original 12 columns, adding "country" and "dayofYear"
@@ -21,6 +29,9 @@ for(file in dir)
 # use append or something to smash them all together (probably in a for loop)
 # if-else statement to put in country and dayofYear?
 # use exercise 8 and 9 for user interaction and warnings 
+oneCSV <- function(){
+  
+}
 
 
 
