@@ -2,11 +2,16 @@
   #questions with graphical evidence
 
 # source() to access supportingFunctions.R
-source("supportingFunctions.R", local = FALSE)
-# use second function to compile the data
-oneCSV(
+source("supportingFunctions.R", local = TRUE)
+# use second function to compile the data, input path to a certain directory 
+### change input to be two directories in supportingFunctions.R and mash them all up into one  
+oneCSV("/Users/alexdosch/Desktop/Rproject2021/countryX")
+oneCSV("/Users/alexdosch/Desktop/Rproject2021/countryY_csv")
+#
 # plot: double bar graph, color coded by country with y-axis as markers present?
     # cowplot to show all the data from function 3 actually
+library(ggplot)
+library(cowplot)
 
 # Answers to questions
   # 1. whichever country with more markers and more people infected probably 
