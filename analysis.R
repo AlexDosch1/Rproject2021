@@ -2,7 +2,9 @@
   #questions with graphical evidence
 
 # source() to access supportingFunctions.R
+source("supportingFunctions.R", local = FALSE)
 # use second function to compile the data
+oneCSV(
 # plot: double bar graph, color coded by country with y-axis as markers present?
     # cowplot to show all the data from function 3 actually
 
