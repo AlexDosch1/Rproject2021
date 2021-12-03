@@ -35,7 +35,7 @@ oneCSV <- function(dir1, dir2){
   files <- list.files(directory1, pattern = ".csv")
   # open each file
   for (i in files){
-  read.csv("files[i]", header = TRUE, stringsAsFactors = FALSE) ### this has invalid description argument error and idk why
+  read.csv(i, header = TRUE, stringsAsFactors = FALSE)
   # add columns "country" and "dayofYear"
   with_columns <- file[i]$country <- c("X")
   with_columns <- file[i]$dayofYear <- c(120:175)
@@ -45,7 +45,7 @@ oneCSV <- function(dir1, dir2){
   files <- list.files(directory2, pattern = ".csv")
   # open each file
   for (i in files){
-  read.csv("files[i]", header = TRUE, stringsAsFactors = FALSE) ### this has invalid description argument error and idk why
+  read.csv(i, header = TRUE, stringsAsFactors = FALSE)
   # add columns "country" and "dayofYear"
   with_columns <- file[i]$country <- c("Y")
   with_columns <- file[i]$dayofYear <- c(120:175)
@@ -76,5 +76,18 @@ oneCSV <- function(dir1, dir2){
 # summarize compiled data in terms of number of screens run, percent of infected 
   # patients screened, male vs. female patients, and age distribution
 
-# 
+seeData <- function(file) {
+# number of screens run: line count on allData
+         
+# percent of infected patients screened: basically grep for a 1 and then count them
+         # this count/screens run *100
 
+# count female
+# count male 
+# print results of both
+         
+# scatter plot for age distribution?
+  ggplot(
+    )
+
+}
