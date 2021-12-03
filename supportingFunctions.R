@@ -25,37 +25,43 @@ toCSV <- function(dir){
 
 # 2. compile data from all .csv files in a directory into a single .csv file
   # file should have original 12 columns, adding "country" and "dayofYear"
-  # user can choose to remove/keep rows with NA's (+/- warning)
+  # user should choose to remove/keep rows with NA's (+/- warning)
 
 oneCSV <- function(dir1, dir2){
   #define directories -- this will be different for each input of data
   directory1 <- "/Users/alexdosch/Desktop/countryX"
   directory2 <- "/Users/alexdosch/Desktop/countryY_csv"
+  
   # define set of files
-  files <- list.files(directory1, pattern = ".csv")
+  filesX <- list.files(directory1, pattern = ".csv")
   # open each file
-  for (i in files){
-  read.csv(i, header = TRUE, stringsAsFactors = FALSE)
+  for (i in filesX){
+  read.csv(i, header = TRUE, stringsAsFactors = FALSE) 
   # add columns "country" and "dayofYear"
-  with_columns <- file[i]$country <- c("X")
-  with_columns <- file[i]$dayofYear <- c(120:175)
+  with_columnsX <- filesX[i]$country <- c("X")
+  with_columnsX <- filesX[i]$dayofYear <- c(120:175)
   }
   
-  # same thing but for directory 2 (try to make this a for loop if possible)
-  files <- list.files(directory2, pattern = ".csv")
-  # open each file
-  for (i in files){
-  read.csv(i, header = TRUE, stringsAsFactors = FALSE)
-  # add columns "country" and "dayofYear"
-  with_columns <- file[i]$country <- c("Y")
-  with_columns <- file[i]$dayofYear <- c(120:175)
-  } 
+  #same thing but for directory 2
+  filesY <- list.files(directory2, pattern = ".csv")
+  #open each file
+  for (i in filesY){
+    read.csv(i, header = TRUE, stringsAsFactors = FALSE)
+    #add columns "country" and "dayofYear"
+    with_columnsY <- filesY[i]$country <- c("Y")
+    with_columnsY <- filesY[i]$dayofYear <- c(120:175)
+  }
   
   # append/combine the new files
-  allData <- lapply(with_columns, function (x) read.csv(file=x, header=TRUE))
-  Reduce(function(x,y) merge(x,y), allData)
- 
-# handle NA's [argument] --> user interaction
+  allDataX <- lapply(with_columnsX, function (x) read.csv(file=x, header=TRUE))
+  Reduce(function(x,y) merge(x,y), allDataX)
+  
+  allDataY <- lapply(with_columnsY, function (x) read.csv(file=x, header=TRUE))
+  Reduce(function(x,y) merge(x,y), allDataY)
+  
+  allData <- append(allDataX, allDataY, after = length(allDataX))
+  
+  # handle NA's [argument] --> user interaction ###Should this go at the top?
   print("Data may contain NA's")
   answer <-readline("If you would like to remove NA's reply REMOVE. If you would like to keep NA's reply KEEP")
   if (answer!="REMOVE") { 
@@ -64,11 +70,11 @@ oneCSV <- function(dir1, dir2){
     answer <- readline("Print warning if NA's are found? Y or N")
     if (answer!="Y"){
       (is.na(allData)=TRUE)
-        print("Warning: missing values")
-      }
-    } else {
-    break
+      print("Warning: missing values")
     }
+  } else {
+    break
+  }
 }        
 
 
@@ -76,18 +82,31 @@ oneCSV <- function(dir1, dir2){
 # summarize compiled data in terms of number of screens run, percent of infected 
   # patients screened, male vs. female patients, and age distribution
 
-seeData <- function(file) {
-# number of screens run: line count on allData
-         
-# percent of infected patients screened: basically grep for a 1 and then count them
-         # this count/screens run *100
-
-# count female
-# count male 
-# print results of both
-         
-# scatter plot for age distribution?
-  ggplot(
-    )
-
+seeData <- function(allData) {
+  #number of screens run: line count on allData
+  allData <-read.csv("allData.csv", header = TRUE, stringsAsFactors = TRUE)
+  num <- nrow(allData)
+  mes <- "Number of screens run:"
+  paste0(mes, num, sep = " ")
+  
+  # percent of infected patients screened (i think i need to not use grep but i can't figure out what to use right now)
+  matches <- grep(pattern = "1", allData)
+  numMatches <- length(matches)
+  percent <- (numMatches/num)*100
+  paste("Percent of infected patients screened:", percent, sep = " ")
+  
+  # female vs male data
+  fem <- grep(pattern = "female", allData)
+  numfem <- length(fem)
+  male <- grep(pattern = "male", allData)
+  nummal <- length(male)
+  paste("Female to Male test subjects", numfem, nummal, sep = " : ")
+  
+  # scatter plot for age distribution
+  library(ggplot2)
+  ggplot(data = allData, aes(x = age)) +
+    geom_histogram(binwidth = 5) +
+    xlim(0,100) +
+    theme_classic()
 }
+
