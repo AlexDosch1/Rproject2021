@@ -61,7 +61,7 @@ oneCSV <- function(dir1, dir2){
   
   allData <- append(allDataX, allDataY, after = length(allDataX))
   
-  # handle NA's [argument] --> user interaction ###Should this go at the top?
+  # handle NA's [argument]
   print("Data may contain NA's")
   answer <-readline("If you would like to remove NA's reply REMOVE. If you would like to keep NA's reply KEEP")
   if (answer!="REMOVE") { 
@@ -89,7 +89,7 @@ seeData <- function(allData) {
   mes <- "Number of screens run:"
   paste0(mes, num, sep = " ")
   
-  # percent of infected patients screened (i think i need to not use grep but i can't figure out what to use right now)
+  # percent of infected patients screened 
   matches <- grep(pattern = "1", allData)
   numMatches <- length(matches)
   percent <- (numMatches/num)*100
